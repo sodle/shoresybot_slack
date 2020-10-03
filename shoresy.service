@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=shoresy
 WorkingDirectory=/home/shoresy
-ExecStart=/usr/bin/env pipenv run ExecStart
+ExecStart=/usr/bin/env pipenv run start
 Restart=always
 
 [Install]
