@@ -6,6 +6,7 @@ After=network.target
 User=shoresy
 WorkingDirectory=/home/shoresy
 ExecStart=/usr/bin/env pipenv run start
+ExecStartPre=/usr/bin/env pipenv install
 Restart=always
 
 [Install]
