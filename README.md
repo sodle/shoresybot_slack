@@ -11,7 +11,7 @@ Based on [the equivalent Reddit bot by iwharris](https://github.com/iwharris/sho
 ## Development Roadmap
 
 - [x] ~~_Basic insult functionality_~~
-- [ ] CICD pipeline
+- [x] ~~_CICD pipeline_~~
 - [ ] Discord support
 - [ ] [Bug] figger oot why Slack sends duplicate events sometimes, and how to dedup them
 - [ ] [Potential feature] for chirps that originally mentioned both Reilly and Jonesy['s moms], the bot currently just picks "Reilly" or "Jonesy" at random for the other slot. It could maybe pick another member of the slack channel at random.
