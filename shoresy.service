@@ -1,0 +1,12 @@
+[Unit]
+Description=Shoresy Chirp Generator for Slack
+After=network.target
+
+[Service]
+User=shoresy
+WorkingDirectory=/home/shoresy
+ExecStart=/usr/bin/env pipenv run ExecStart
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/shoresy
+  - source: /shoresy.service
+    destination: /etc/systemd/system
+permissions:
+  - object: /home/shoresy
+    owner: shoresy
+    group: shoresy
+  - object: /etc/systemd/system/shoresy.service
+hooks:
+  BeforeInstall:
+    - location: hooks/beforeInstall.sh
+      runas: root
+  AfterInstall:
+    - location: hooks/afterInstall.sh
+      runas: root
+  ApplicationStart:
+    - location: hooks/appStart.sh
+      runas: root
+  ApplicationStop:
+    - location: hooks/appStop.sh
+      runas: root
