@@ -35,4 +35,5 @@ def on_message(payload):
             channel=channel, text=get_random_chirp(mention))
 
 
-app.run(host="0.0.0.0", port=3000)
+if __name__ == "__main__":
+    app.run()

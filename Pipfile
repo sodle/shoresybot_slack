@@ -11,9 +11,11 @@ requests = "*"
 slackclient = "*"
 slackeventsapi = "*"
 flask = "*"
+uwsgi = "*"
 
 [requires]
 python_version = "3"
 
 [scripts]
-start = "python slackbot.py"
+start = "uwsgi --ini uwsgi.ini"
+start-dev = "python slackbot.py"
