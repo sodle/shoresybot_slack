@@ -54,7 +54,7 @@ chirps = [
 
 happen_chirps = [
     'Three things: I hit you, you hit the pavement, ambulance hits sixty!',
-    "Three things: I hit you, you hit the pavement, I jerk off on your driver's side door handle again!",
+    "Three things: I hit you, you hit the pavement, I jerk off on your driver's side door handle!",
     'Three things: I hit you, you hit the pavement, I fuck your mom again!',
 ]
 
