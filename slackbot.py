@@ -5,6 +5,7 @@ import time
 import logging
 import sys
 import json
+import threading
 from flask import Flask
 from chirps import get_random_chirp, get_happen_chirp
 
@@ -30,6 +31,10 @@ slack_events_adapter = SlackEventAdapter(
     SLACK_SIGNING_SECRET, "/shoresy/slack/events", app)
 slack_client = WebClient(token=SLACK_ACCESS_TOKEN)
 
+def send_message(channel: str, text: str, thread_ts: str = None, delay_sec: int = 0):
+    time.sleep(delay_sec)
+    slack_client.chat_postMessage(channel=channel, text=text, thread_ts=thread_ts)
+
 
 @slack_events_adapter.on('app_mention')
 def on_message(payload):
@@ -39,19 +44,22 @@ def on_message(payload):
 
     target_profile = slack_client.users_info(user=user_target)
     logger.info(target_profile)
-    if target_profile['user']['is_bot']:
-        time.sleep(300)
 
     mention = f"<@{user_target}>"
 
     channel = payload['event']['channel']
     if 'happen' in str.lower(payload['event']['text']):
-        slack_client.chat_postMessage(channel=channel, text=get_happen_chirp(),
-                                      thread_ts=payload['event'].get('thread_ts', None))
+        chirp = get_happen_chirp()
     else:
-        slack_client.chat_postMessage(
-            channel=channel, text=get_random_chirp(mention),
-            thread_ts=payload['event'].get('thread_ts', None))
+        chirp = get_random_chirp(mention)
+
+    send_thread = threading.Thread(target=send_message, kwargs={
+        'channel': channel,
+        'text': chirp,
+        'thread_ts': payload['event'].get('thread_ts', None),
+        'delay_sec': 300 if target_profile['user']['is_bot'] else 0
+    })
+    send_thread.run()
 
 
 if __name__ == "__main__":
