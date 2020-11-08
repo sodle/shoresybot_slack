@@ -29,10 +29,12 @@ def on_message(payload):
     mention = f"<@{payload['event']['user']}>"
     channel = payload['event']['channel']
     if 'happen' in str.lower(payload['event']['text']):
-        slack_client.chat_postMessage(channel=channel, text=get_happen_chirp())
+        slack_client.chat_postMessage(channel=channel, text=get_happen_chirp(),
+                                      thread_ts=payload['event'].get('thread_ts', None))
     else:
         slack_client.chat_postMessage(
-            channel=channel, text=get_random_chirp(mention))
+            channel=channel, text=get_random_chirp(mention),
+            thread_ts=payload['event'].get('thread_ts', None))
 
 
 if __name__ == "__main__":
