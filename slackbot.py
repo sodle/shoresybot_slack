@@ -1,7 +1,7 @@
 from slackeventsapi import SlackEventAdapter
 from slack import WebClient
 import boto3
-import json
+import time
 from flask import Flask
 from chirps import get_random_chirp, get_happen_chirp
 
@@ -26,7 +26,14 @@ slack_client = WebClient(token=SLACK_ACCESS_TOKEN)
 
 @slack_events_adapter.on('app_mention')
 def on_message(payload):
-    mention = f"<@{payload['event']['user']}>"
+    user_target = payload['event']['user']
+
+    target_profile = slack_client.users_info(user=user_target)
+    if target_profile['user']['is_bot']:
+        time.sleep(10)
+
+    mention = f"<@{user_target}>"
+
     channel = payload['event']['channel']
     if 'happen' in str.lower(payload['event']['text']):
         slack_client.chat_postMessage(channel=channel, text=get_happen_chirp(),
