@@ -11,11 +11,11 @@ requests = "*"
 slackclient = "*"
 slackeventsapi = "*"
 flask = "*"
-uwsgi = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3"
 
 [scripts]
-start = "uwsgi --ini uwsgi.ini"
+start = "gunicorn --config gunicorn.config.py slackbot:app"
 start-dev = "python slackbot.py"
