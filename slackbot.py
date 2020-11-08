@@ -2,8 +2,15 @@ from slackeventsapi import SlackEventAdapter
 from slack import WebClient
 import boto3
 import time
+import logging
+import sys
+import json
 from flask import Flask
 from chirps import get_random_chirp, get_happen_chirp
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 
 ssm = boto3.client('ssm', region_name='us-west-2')
 SLACK_SIGNING_SECRET = ssm.get_parameter(
@@ -26,9 +33,12 @@ slack_client = WebClient(token=SLACK_ACCESS_TOKEN)
 
 @slack_events_adapter.on('app_mention')
 def on_message(payload):
+    logger.info(json.dumps(payload))
+
     user_target = payload['event']['user']
 
     target_profile = slack_client.users_info(user=user_target)
+    logger.info(target_profile)
     if target_profile['user']['is_bot']:
         time.sleep(10)
 
